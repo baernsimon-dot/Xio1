@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "agra-gui",
+  "version": "${version}",
+  "name": "agra gui",
+  "description": "Clean animated GUI. Open and close the ClickGUI with Right Shift.",
+  "authors": ["agra"],
+  "license": "MIT",
+  "environment": "client",
+  "mixins": ["agra-gui.mixins.json"],
+  "entrypoints": {
+    "client": ["dev.agra.gui.AgraGuiClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.18.1",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
