@@ -3,33 +3,46 @@ name: Build Agra GUI
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+      - master
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+      - master
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build:
+    name: Build Fabric Mod
     runs-on: ubuntu-latest
 
     steps:
-      - name: Repository herunterladen
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Java 21 installieren
+      - name: Setup Java 21
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 21
+          java-version: '21'
 
-      - name: Gradle ausführen
+      - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Mod bauen
-        run: chmod +x ./gradlew && ./gradlew build
+      - name: Make Gradle Wrapper Executable
+        run: chmod +x ./gradlew
 
-      - name: JAR speichern
+      - name: Build Mod
+        run: ./gradlew --no-daemon clean build
+
+      - name: Upload Mod JAR
         uses: actions/upload-artifact@v4
         with:
-          name: Agra-GUI
+          name: Agra-GUI-Fabric
           path: build/libs/*.jar
+          if-no-files-found: error
+          retention-days: 14
