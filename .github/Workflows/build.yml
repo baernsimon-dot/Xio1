@@ -1,0 +1,35 @@
+
+name: Build Agra GUI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository herunterladen
+        uses: actions/checkout@v4
+
+      - name: Java 21 installieren
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Gradle ausführen
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Mod bauen
+        run: chmod +x ./gradlew && ./gradlew build
+
+      - name: JAR speichern
+        uses: actions/upload-artifact@v4
+        with:
+          name: Agra-GUI
+          path: build/libs/*.jar
